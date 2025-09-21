@@ -60,7 +60,7 @@ export const ProjectsSection = () => {
             <Card
               key={project.title}
               className="px-8 pt-8 pb-0 md:pt-12 
-              md:px-10 lg:pt-16 lg:px-20 sticky " style={{
+              md:px-10 lg:pt-16 lg:px-20 sticky h-[500px] overflow-hidden" style={{
                 top: `calc(64px + ${projectIndex * 40}px)`,
               }}
             >
@@ -72,7 +72,7 @@ export const ProjectsSection = () => {
                 <span>&bull;</span>
                 <span>{project.year}</span>
               </div>
-              <h3 className="font-serif texxt-2xl mt-2 md:mt-5 md:text-4xl">{project.title}</h3>
+              <h3 className="font-serif text-2xl mt-2 md:mt-5 md:text-4xl">{project.title}</h3>
               <hr className="border-t-2 border-white/5 mt-4 md:mt-5" />
               <ul className="flex flex-col gap-4 mt-4 md:mt-5">
                 {project.results.map((result) => (
@@ -90,11 +90,11 @@ export const ProjectsSection = () => {
                 </button>
               </a>
               </div>
-              <div className="relative">
+              <div className="relative -mb-16 md:-mb-16 lg:-mb-20">
               <Image
                 src={project.image}
                 alt={project.title}
-                className="mt-8 -mb-4 md:-mb-0 
+                className="mt-8 w-full h-auto object-cover
                 lg:mt-0 lg:h-full lg:w-auto lg:max-w-none"
               />
               </div>
