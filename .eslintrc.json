@@ -1,6 +1,16 @@
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+  "extends": "next/core-web-vitals"
+=======
+>>>>>>> cb5fae7 (redirect)
   "extends": "next/core-web-vitals",
   "rules": {
     "react/no-unescaped-entities": "off"
   }
+<<<<<<< HEAD
+=======
+>>>>>>> ef0d21e (cleared)
+>>>>>>> cb5fae7 (redirect)
 }
