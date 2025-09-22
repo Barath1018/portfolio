@@ -56,7 +56,7 @@ export const Header = () => {
           <div></div>
           
           {/* Centered Navigation */}
-          <nav className="flex gap-1 p-0.5 border border-white/15 rounded-full absolute left-1/2 transform -translate-x-1/2">
+          <nav className="flex gap-1 p-0.5 absolute left-1/2 transform -translate-x-1/2">
             <button 
               onClick={() => handleClick("home")}
               className={getButtonClass("home")}
