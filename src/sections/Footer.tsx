@@ -6,20 +6,21 @@ const footerLinks = [
     href: "https://github.com/Barath1018",
   },
   {
-    title: "Instagram",
-    href: "https://instagram.com/_barath_ob1t0",
-  },
-  {
     title: "LinkedIn",
     href: "https://www.linkedin.com/in/barath-senthil-933b03294/",
   },
+  {
+    title: "Instagram",
+    href: "https://instagram.com/_barath_ob1t0",
+  },
+  
   {
     title: "Discord",
     href: "https://discord.com",
   },
   {
-    title: "Twitter",
-    href: "https://twitter.com",
+    title: "Mail",
+    href: "mailto:barath.senthil1018@gmail.com",
   },
 ];
 
