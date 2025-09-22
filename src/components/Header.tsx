@@ -28,11 +28,24 @@ export const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const handleClick = (section: string) => {
+    setActiveSection(section);
+    
+    // Scroll to the section smoothly
+    const element = document.getElementById(section);
+    if (element) {
+      window.scrollTo({
+        top: element.offsetTop,
+        behavior: "smooth"
+      });
+    }
+  };
+
   const getButtonClass = (section: string) => {
     if (activeSection === section) {
-      return "px-3 py-1.5 rounded-full text-gray-900 bg-gradient-to-r from-emerald-400 to-cyan-400 text-sm font-medium transition-all duration-300 flex items-center gap-1";
+      return "px-3 py-1.5 rounded-full text-gray-900 bg-gradient-to-r from-emerald-400 to-cyan-400 text-sm font-medium transition-all duration-500 ease-in-out flex items-center gap-1";
     }
-    return "px-3 py-1.5 rounded-full text-white/80 hover:bg-white/15 hover:text-white text-sm font-medium transition-all duration-300 flex items-center gap-1";
+    return "px-3 py-1.5 rounded-full text-white/80 hover:bg-white/15 hover:text-white text-sm font-medium transition-all duration-500 ease-in-out flex items-center gap-1";
   };
 
   return (
@@ -42,43 +55,42 @@ export const Header = () => {
       
       {/* Centered Navigation using absolute positioning */}
       <nav className="flex gap-1 p-0.5 border border-white/15 rounded-full bg-white/10 backdrop-blur-sm shadow-md absolute left-1/2 transform -translate-x-1/2">
-        <a 
-          href="#home" 
+        <button 
+          onClick={() => handleClick("home")}
           className={getButtonClass("home")}
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
           </svg>
           Home
-        </a>
-        <a 
-          href="#projects" 
+        </button>
+        <button 
+          onClick={() => handleClick("projects")}
           className={getButtonClass("projects")}
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
           </svg>
           Projects
-        </a>
-        <a 
-          href="#about" 
+        </button>
+        <button 
+          onClick={() => handleClick("about")}
           className={getButtonClass("about")}
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
           </svg>
           About
-        </a>
-        
-        <a 
-          href="#contact" 
+        </button>
+        <button 
+          onClick={() => handleClick("contact")}
           className={getButtonClass("contact")}
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
           </svg>
           Contact
-        </a>
+        </button>
       </nav>
       
       {/* All Social Media Icons on the right */}
@@ -111,7 +123,7 @@ export const Header = () => {
           href="https://instagram.com" 
           target="_blank" 
           rel="noopener noreferrer"
-          className="p-1.5 rounded-full text-gray-500 hover:text-emerald-500 hover:-translate-y-1 transition-all duration-300"
+          className="p-1.5 rounded-full text-gray-500 hover:text-pink-500 hover:-translate-y-1 transition-all duration-300"
           aria-label="Instagram"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
@@ -133,7 +145,7 @@ export const Header = () => {
         
         <a 
           href="mailto:your.email@example.com" 
-          className="p-1.5 rounded-full text-gray-500 hover:text-red-500 hover:-translate-y-1 transition-all duration-300"
+          className="p-1.5 rounded-full text-gray-500 hover:text-red-400 hover:-translate-y-1 transition-all duration-300"
           aria-label="Email"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
