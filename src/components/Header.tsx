@@ -98,7 +98,7 @@ export const Header = () => {
           {/* All Social Media Icons on the right */}
           <div className="flex items-center gap-2">
             <a 
-              href="https://github.com" 
+              href="https://github.com/Barath1018" 
               target="_blank" 
               rel="noopener noreferrer"
               className="p-1.5 rounded-full text-gray-300 hover:text-white hover:-translate-y-1 transition-all duration-300"
@@ -110,7 +110,7 @@ export const Header = () => {
             </a>
             
             <a 
-              href="https://linkedin.com" 
+              href="https://linkedin.com/in/barath-senthil-933b03294/" 
               target="_blank" 
               rel="noopener noreferrer"
               className="p-1.5 rounded-full text-gray-300 hover:text-blue-600 hover:-translate-y-1 transition-all duration-300"
@@ -122,7 +122,7 @@ export const Header = () => {
             </a>
             
             <a 
-              href="https://instagram.com" 
+              href="https://instagram.com/_barath_ob1t0" 
               target="_blank" 
               rel="noopener noreferrer"
               className="p-1.5 rounded-full text-gray-300 hover:text-pink-500 hover:-translate-y-1 transition-all duration-300"
@@ -134,7 +134,7 @@ export const Header = () => {
             </a>
             
             <a 
-              href="https://discord.com" 
+              href="https://discord.com/users/barath_codex4" 
               target="_blank" 
               rel="noopener noreferrer"
               className="p-1.5 rounded-full text-gray-300 hover:text-indigo-500 hover:-translate-y-1 transition-all duration-300"
@@ -146,7 +146,7 @@ export const Header = () => {
             </a>
             
             <a 
-              href="mailto:your.email@example.com" 
+              href="mailto:barath.senthil1018@gmail.com" 
               className="p-1.5 rounded-full text-gray-300 hover:text-red-400 hover:-translate-y-1 transition-all duration-300"
               aria-label="Email"
             >
