@@ -70,11 +70,14 @@ export const Header = () => {
   };
 
   const getButtonClass = (section: string) => {
-    // Compact size on mobile; larger from sm and up
+    // Extra-compact on mobile; scale up progressively on larger screens
+    const base =
+      "px-1 sm:px-2 md:px-3 py-0.5 sm:py-1 md:py-1.5 rounded-full font-medium transition-all duration-500 ease-in-out flex items-center gap-1";
+    const size = "text-[9px] sm:text-xs md:text-sm";
     if (activeSection === section) {
-      return "px-1 sm:px-3 py-1 sm:py-1 rounded-full text-gray-900 bg-gradient-to-r from-purple-400 to-purple-700 text-[8px] sm:text-sm font-medium transition-all duration-500 ease-in-out flex items-center gap-1";
+      return `${base} ${size} text-gray-900 bg-gradient-to-r from-purple-400 to-purple-700`;
     }
-    return "px-1 sm:px-3 py-1 sm:py-1 rounded-full text-white/80 hover:bg-white/15 hover:text-white text-[10px] sm:text-sm font-medium transition-all duration-500 ease-in-out flex items-center gap-1";
+    return `${base} ${size} text-white/80 hover:bg-white/15 hover:text-white`;
   };
 
   return (
@@ -96,25 +99,28 @@ export const Header = () => {
               <Image
                 src="/logo.png"
                 alt="Logo"
-                width={32}
-                height={32}
+                width={28}
+                height={28}
                 className="rounded-full shadow-sm shadow-purple-500/30 hover:shadow-purple-500/60 transition-shadow"
                 priority
               />
             </button>
-            {/* Desktop refresh logo */}
+            {/* Desktop logo (also toggles links) */}
             <button
               type="button"
-              title="Refresh"
-              aria-label="Refresh page"
-              onClick={() => window.location.reload()}
-              className="hidden md:inline-flex items-center justify-center rounded-full w-10 h-10 hover:scale-[1.02] transition-transform focus:outline-none focus:ring-2 focus:ring-purple-500"
+              title="Open links"
+              aria-label="Open links"
+              onClick={(e) => {
+                e.stopPropagation();
+                setMobileLinksOpen((s) => !s);
+              }}
+              className="hidden md:inline-flex items-center justify-center rounded-full w-9 h-9 hover:scale-[1.02] transition-transform focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
               <Image
                 src="/logo.png"
                 alt="Site Logo"
-                width={40}
-                height={40}
+                width={32}
+                height={32}
                 className="rounded-full shadow-sm shadow-purple-500/30"
                 priority
               />
@@ -301,12 +307,12 @@ export const Header = () => {
             </div>
           </div>
 
-          {/* Mobile popover with links */}
+          {/* Popover with links (shown when logo button is clicked) */}
           {mobileLinksOpen && (
             <div
               ref={mobileMenuRef}
               onClick={(e) => e.stopPropagation()}
-              className="md:hidden absolute left-3 top-full mt-2 min-w-[160px] bg-gray-900/90 text-gray-100 backdrop-blur-xl rounded-xl p-2 flex flex-col gap-1.5 z-[100] shadow-lg ring-1 ring-white/10"
+              className="absolute left-3 top-full mt-2 min-w-[160px] bg-gray-900/90 text-gray-100 backdrop-blur-xl rounded-xl p-2 flex flex-col gap-1.5 z-[100] shadow-lg ring-1 ring-white/10"
             >
               <a
                 href="https://github.com/Barath1018"
