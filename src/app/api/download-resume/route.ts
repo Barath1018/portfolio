@@ -6,7 +6,9 @@ export async function GET() {
   try {
     const filePath = path.join(process.cwd(), "public", "Barath's_Resume.pdf");
     const file = await fs.readFile(filePath);
-    return new NextResponse(file, {
+    // Convert Node Buffer to a web-compatible Uint8Array (BodyInit)
+    const body = new Uint8Array(file);
+    return new Response(body, {
       status: 200,
       headers: {
         "Content-Type": "application/pdf",
