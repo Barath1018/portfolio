@@ -1,16 +1,7 @@
 {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-  "extends": "next/core-web-vitals"
-=======
->>>>>>> cb5fae7 (redirect)
   "extends": "next/core-web-vitals",
   "rules": {
-    "react/no-unescaped-entities": "off"
+    "react/no-unescaped-entities": "off",
+    "next/no-img-element": "off"
   }
-<<<<<<< HEAD
-=======
->>>>>>> ef0d21e (cleared)
->>>>>>> cb5fae7 (redirect)
 }

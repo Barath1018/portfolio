@@ -1,5 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  distDir: ".next-local",
+  outputFileTracing: false,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'assets.leetcode.com',
+        pathname: '/static_assets/public/images/**',
+      },
+    ],
+  },
   webpack(config) {
     // Grab the existing rule that handles SVG imports
     const fileLoaderRule = config.module.rules.find((rule) =>

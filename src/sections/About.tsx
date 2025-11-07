@@ -114,7 +114,6 @@ export const AboutSection = () => {
               <LeetCode />
             </Card>
           </div>
-          {/* PERSISTENCE NOTE: GitHub calendar replaced with "Beyond the Code" per user request. */}
         </div>
       </div>
     </div>

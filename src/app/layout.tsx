@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Inter, Calistoga } from "next/font/google";
 import "./globals.css";
 import { twMerge } from "tailwind-merge";
+import dynamic from "next/dynamic";
+
+const Particles = dynamic(() => import("@/components/Particles"), { ssr: false });
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const calistoga = Calistoga({
@@ -29,6 +32,7 @@ export default function RootLayout({
           "bg-gray-900 text-white antialiased font-sans"
         )}
       >
+  <Particles count={100} color="#ffffff" />
         {children}
       </body>
     </html>

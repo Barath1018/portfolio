@@ -111,7 +111,7 @@ export const Header = () => {
           href="https://instagram.com" 
           target="_blank" 
           rel="noopener noreferrer"
-          className="p-1.5 rounded-full text-gray-300 hover:text-emerald-500 hover:-translate-y-1 transition-all duration-300"
+          className="p-1.5 rounded-full text-gray-300 hover:text-[#c084f5] hover:-translate-y-1 transition-all duration-300"
           aria-label="Instagram"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">

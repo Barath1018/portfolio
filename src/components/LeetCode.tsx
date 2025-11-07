@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
+import Image from "next/image";
 import CountUp from "react-countup";
 
 const LeetCode = ({ username = "barath-codex4" }) => {
@@ -66,7 +67,7 @@ const LeetCode = ({ username = "barath-codex4" }) => {
 		if (loading) {
 			return (
 				<div style={styles.centered as React.CSSProperties}>
-					<div className="loader-name">🚀 My <span style={{ color: '#7e22ce' }}>LeetCode</span> Profile</div>
+					<div className="loader-name"> My <span style={{ color: '#7e22ce' }}>LeetCode</span> Profile</div>
 					<div className="loader-typing">Fetching LeetCode Data...</div>
 				</div>
 			);
@@ -87,8 +88,8 @@ const LeetCode = ({ username = "barath-codex4" }) => {
 			return (
 				<div style={{ ...(styles.tiltContainer as React.CSSProperties), ...(isVisible ? (styles.visible as React.CSSProperties) : (styles.hidden as React.CSSProperties)) }}>
 					<div style={styles.header as React.CSSProperties}>
-						<img src="https://assets.leetcode.com/static_assets/public/images/LeetCode_logo_rvs.png" alt="LeetCode" style={styles.logo as React.CSSProperties} />
-							<span style={styles.largeTitle as React.CSSProperties}>🚀 My <span style={{ color: '#7e22ce' }}>LeetCode</span> Profile</span>
+						<Image src="https://assets.leetcode.com/static_assets/public/images/LeetCode_logo_rvs.png" alt="LeetCode" width={24} height={24} style={styles.logo as React.CSSProperties} />
+							<span style={styles.largeTitle as React.CSSProperties}> My <span style={{ color: '#7e22ce' }}>LeetCode</span> Profile</span>
 					</div>
 
 					<div style={styles.orbContainer as React.CSSProperties}>
@@ -167,7 +168,7 @@ const LeetCode = ({ username = "barath-codex4" }) => {
 				.loader-typing {
 					color: #ccc;
 					margin-top: 12px;
-					font-family: 'Courier New', monospace;
+					font-family: Courier New, monospace;
 					animation: typing 3s steps(30, end) infinite;
 					white-space: nowrap;
 					overflow: hidden;
