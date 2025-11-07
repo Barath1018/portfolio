@@ -48,7 +48,7 @@ export const TestimonialsSection = () => {
       <div className="container">
         <SectionHeader
           eyebrow="Happy Clients"
-          title="What Clients Say about Me"
+          title="My Learning Journey So Far"
           description="Don't just take my word for it. Hear from clients who have experienced the impact of my work firsthand."
         />
         <div

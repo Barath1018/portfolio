@@ -1,12 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export const Header = () => {
   const [activeSection, setActiveSection] = useState("home");
+  const clickScrollLock = useRef(false);
 
   useEffect(() => {
     const handleScroll = () => {
+      if (clickScrollLock.current) return;
       const sections = ["home", "projects", "about", "contact"];
       const scrollPosition = window.scrollY + 100;
 
@@ -25,25 +27,30 @@ export const Header = () => {
     };
 
     window.addEventListener("scroll", handleScroll);
+    // Initialize active section on mount
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const handleClick = (section: string) => {
+    clickScrollLock.current = true;
     setActiveSection(section);
-    
-    // Scroll to the section smoothly
+    // Scroll to the section smoothly with slight offset for fixed header
     const element = document.getElementById(section);
     if (element) {
-      window.scrollTo({
-        top: element.offsetTop,
-        behavior: "smooth"
-      });
+      const headerOffset = 80; // adjust if header height changes
+      const targetTop = Math.max(0, element.offsetTop - headerOffset);
+      window.scrollTo({ top: targetTop, behavior: "smooth" });
     }
+    // release the lock shortly after the smooth scroll finishes
+    window.setTimeout(() => {
+      clickScrollLock.current = false;
+    }, 700);
   };
 
   const getButtonClass = (section: string) => {
     if (activeSection === section) {
-      return "px-3 py-1.5 rounded-full text-gray-900 bg-gradient-to-r from-emerald-400 to-cyan-400 text-sm font-medium transition-all duration-500 ease-in-out flex items-center gap-1";
+      return "px-3 py-1.5 rounded-full text-gray-900 bg-gradient-to-r from-purple-400 to-purple-700 text-sm font-medium transition-all duration-500 ease-in-out flex items-center gap-1";
     }
     return "px-3 py-1.5 rounded-full text-white/80 hover:bg-white/15 hover:text-white text-sm font-medium transition-all duration-500 ease-in-out flex items-center gap-1";
   };
@@ -146,7 +153,7 @@ export const Header = () => {
             </a>
             
             <a 
-              href="mailto:barath.senthil1018@gmail.com" 
+              href="mailto:barath.senthil1602@gmail.com" 
               className="p-1.5 rounded-full text-gray-300 hover:text-red-400 hover:-translate-y-1 transition-all duration-300"
               aria-label="Email"
             >
