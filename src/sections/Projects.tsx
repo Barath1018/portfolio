@@ -10,13 +10,13 @@ import { Card } from "@/components/Card";
 
 const portfolioProjects = [
   {
-    company: "Acme Corp",
-    year: "2022",
-    title: "Dark Saas Landing Page",
+    company: "University Project",
+    year: "2025",
+    title: "Business Intelligence Dashboard",
     results: [
-      { title: "Enhanced user experience by 40%" },
-      { title: "Improved site speed by 50%" },
-      { title: "Increased mobile traffic by 35%" },
+      { title: "Built interactive BI dashboard for visualization and reporting" },
+      { title: "Connected multiple data sources and automated reporting" },
+      { title: "Delivered real-time KPIs to improve decision making" },
     ],
     link: "https://youtu.be/4k7IdSLxh6w",
     image: darkSaasLandingPage,
