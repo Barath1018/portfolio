@@ -6,7 +6,7 @@ export const Header = () => {
   const [activeSection, setActiveSection] = useState("home");
   const [mobileLinksOpen, setMobileLinksOpen] = useState(false);
   const clickScrollLock = useRef(false);
-  const mobileMenuRef = useRef<HTMLDivElement | null>(null);
+  const mobileMenuRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
