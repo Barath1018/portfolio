@@ -1,7 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  distDir: ".next-local",
-  outputFileTracing: false,
   images: {
     remotePatterns: [
       {
@@ -55,5 +53,11 @@ const nextConfig = {
     return config;
   },
 };
+
+// Dev-only tweaks to avoid OneDrive file lock issues locally; ignored on Vercel
+if (process.env.NODE_ENV === 'development' && !process.env.VERCEL) {
+  nextConfig.distDir = '.next-local';
+  nextConfig.outputFileTracing = false;
+}
 
 export default nextConfig;
