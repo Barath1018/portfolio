@@ -6,10 +6,11 @@ import { TestimonialsSection } from '@/sections/Testimonials';
 import { AboutSection } from '@/sections/About';
 import { ContactSection } from '@/sections/Contact';
 import { Footer } from '@/sections/Footer';
-
+import Particles from "@/components/Particles"; // Adjust the path
 export default function Home() {
   return (
     <div>
+      <Particles />
       <Header />
       <div id="home">
         <HeroSection/>

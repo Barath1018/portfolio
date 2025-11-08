@@ -75,7 +75,7 @@ export const Header = () => {
       "px-1 sm:px-2 md:px-3 py-0.5 sm:py-1 md:py-1.5 rounded-full font-medium transition-all duration-500 ease-in-out flex items-center gap-1";
     const size = "text-[9px] sm:text-xs md:text-sm";
     if (activeSection === section) {
-      return `${base} ${size} text-gray-900 bg-gradient-to-r from-purple-400 to-purple-700`;
+      return `${base} ${size} text-gray-900 bg-gradient-to-r from-purple-400 to-purple-500`;
     }
     return `${base} ${size} text-white/80 hover:bg-white/15 hover:text-white`;
   };
