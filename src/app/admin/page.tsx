@@ -8,12 +8,12 @@ import { Plus, Trash2, Edit2, Save, X, ExternalLink, Github, Image as ImageIcon,
 
 interface Project {
   id?: number;
-  company: string;
-  year: string;
+  company?: string;
+  year?: string;
   title: string;
   description: string;
-  link: string;
-  repo: string;
+  link?: string;
+  repo?: string;
   image: string;
 }
 
@@ -355,9 +355,11 @@ export default function AdminPortal() {
                     </div>
                   )}
                   <div>
-                    <div className="text-purple-400 text-xs font-bold uppercase tracking-widest">
-                      {project.company} &bull; {project.year}
-                    </div>
+                    {(project.company || project.year) && (
+                      <div className="text-purple-400 text-xs font-bold uppercase tracking-widest">
+                        {project.company || ''} {project.company && project.year ? '•' : ''} {project.year || ''}
+                      </div>
+                    )}
                     <h3 className="text-xl font-bold text-white mt-1">{project.title}</h3>
                   </div>
                 </div>
@@ -380,14 +382,18 @@ export default function AdminPortal() {
               </div>
               <p className="text-sm text-gray-400 mb-6 line-clamp-2 flex-grow">{project.description}</p>
               <div className="flex flex-wrap gap-4 text-xs text-gray-500">
-                <div className="flex items-center gap-1 max-w-[150px]">
-                  <ExternalLink size={14} />
-                  <span className="truncate">{project.link}</span>
-                </div>
-                <div className="flex items-center gap-1 max-w-[150px]">
-                  <Github size={14} />
-                  <span className="truncate">{project.repo}</span>
-                </div>
+                {project.link && (
+                  <div className="flex items-center gap-1 max-w-[150px]">
+                    <ExternalLink size={14} />
+                    <span className="truncate">{project.link}</span>
+                  </div>
+                )}
+                {project.repo && (
+                  <div className="flex items-center gap-1 max-w-[150px]">
+                    <Github size={14} />
+                    <span className="truncate">{project.repo}</span>
+                  </div>
+                )}
               </div>
             </Card>
           ))}

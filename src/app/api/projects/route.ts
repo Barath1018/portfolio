@@ -7,6 +7,10 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
+    if (!process.env.DATABASE_URL) {
+      return NextResponse.json({ error: 'Database not configured' }, { status: 500 });
+    }
+    
     await initDatabase();
     const projects = await sql`SELECT * FROM projects ORDER BY created_at DESC`;
     

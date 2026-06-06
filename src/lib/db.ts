@@ -1,12 +1,20 @@
 import { neon } from '@neondatabase/serverless';
 
-if (!process.env.DATABASE_URL) {
-  throw new Error('DATABASE_URL is not defined');
-}
-
-export const sql = neon(process.env.DATABASE_URL);
+export const sql = process.env.DATABASE_URL 
+  ? neon(process.env.DATABASE_URL) 
+  : (() => {
+      const mock = () => {
+        throw new Error('DATABASE_URL is not defined. Please check your environment variables.');
+      };
+      return mock as any;
+    })();
 
 export async function initDatabase() {
+  if (!process.env.DATABASE_URL) {
+    console.warn('Skipping database initialization: DATABASE_URL is not defined.');
+    return;
+  }
+  
   try {
     await sql`
       CREATE TABLE IF NOT EXISTS projects (
