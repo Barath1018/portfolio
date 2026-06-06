@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="700">
+  <defs>
+    <!-- Sparkle/grain pattern to fill the symbols -->
+    <pattern id="grain" x="0" y="0" width="4" height="4" patternUnits="userSpaceOnUse">
+      <circle cx="0.5" cy="0.5" r="0.5" fill="white" opacity="0.9"/>
+      <circle cx="2.5" cy="1.5" r="0.4" fill="white" opacity="0.7"/>
+      <circle cx="1"   cy="3"   r="0.5" fill="white" opacity="0.8"/>
+      <circle cx="3"   cy="3.5" r="0.3" fill="white" opacity="0.6"/>
+      <circle cx="3.5" cy="0.8" r="0.4" fill="white" opacity="0.85"/>
+    </pattern>
+
+    <!-- Each </> as a clipPath so grain shows only inside -->
+    <clipPath id="c1"><text x="60"  y="120" font-size="64" font-family="monospace" font-weight="900" transform="rotate(-45,60,120)">&lt;/&gt;</text></clipPath>
+    <clipPath id="c2"><text x="300" y="100" font-size="64" font-family="monospace" font-weight="900" transform="rotate(-45,300,100)">&lt;/&gt;</text></clipPath>
+    <clipPath id="c3"><text x="30"  y="310" font-size="64" font-family="monospace" font-weight="900" transform="rotate(-45,30,310)">&lt;/&gt;</text></clipPath>
+    <clipPath id="c4"><text x="200" y="290" font-size="64" font-family="monospace" font-weight="900" transform="rotate(-45,200,290)">&lt;/&gt;</text></clipPath>
+    <clipPath id="c5"><text x="380" y="320" font-size="64" font-family="monospace" font-weight="900" transform="rotate(-45,380,320)">&lt;/&gt;</text></clipPath>
+    <clipPath id="c6"><text x="80"  y="520" font-size="64" font-family="monospace" font-weight="900" transform="rotate(-45,80,520)">&lt;/&gt;</text></clipPath>
+    <clipPath id="c7"><text x="320" y="500" font-size="64" font-family="monospace" font-weight="900" transform="rotate(-45,320,500)">&lt;/&gt;</text></clipPath>
+  </defs>
+
+  <!-- Fill each symbol with the grain pattern -->
+  <rect width="500" height="700" fill="url(#grain)" clip-path="url(#c1)"/>
+  <rect width="500" height="700" fill="url(#grain)" clip-path="url(#c2)"/>
+  <rect width="500" height="700" fill="url(#grain)" clip-path="url(#c3)"/>
+  <rect width="500" height="700" fill="url(#grain)" clip-path="url(#c4)"/>
+  <rect width="500" height="700" fill="url(#grain)" clip-path="url(#c5)"/>
+  <rect width="500" height="700" fill="url(#grain)" clip-path="url(#c6)"/>
+  <rect width="500" height="700" fill="url(#grain)" clip-path="url(#c7)"/>
+</svg>

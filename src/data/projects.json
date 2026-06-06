@@ -1,0 +1,38 @@
+[
+  {
+    "company": "Freelance",
+    "year": "2024-2025",
+    "title": "Video Editing Portfolio",
+    "description": "Cinematic video editing showcase featuring brand films, music videos, commercials and social content with professional color grading and motion graphics.",
+    "link": "/video-editing-portfolio.html",
+    "repo": "https://github.com/Barath1018/video-editing-portfolio",
+    "image": "/video-editing-placeholder.jpg"
+  },
+  {
+    "company": "University Project",
+    "year": "2025",
+    "title": "Business Intelligence Dashboard",
+    "description": "Built interactive BI dashboard for visualization and reporting with real-time KPIs.",
+    "link": "https://youtu.be/4k7IdSLxh6w",
+    "repo": "https://github.com/Barath1018/bi-dashboard",
+    "image": "/images/projects/InsightEdge BID.png"
+  },
+  {
+    "company": "Innovative Co",
+    "year": "2021",
+    "title": "Light Saas Landing Page",
+    "description": "Modern SaaS landing page that boosted sales by 20% and expanded customer reach by 35%.",
+    "link": "https://youtu.be/7hi5zwO75yc",
+    "repo": "https://github.com/Barath1018/light-saas-landing",
+    "image": "/images/projects/light-saas-landing-page.png"
+  },
+  {
+    "company": "Quantum Dynamics",
+    "year": "2023",
+    "title": "AI Startup Landing Page",
+    "description": "High-performance landing page with enhanced user experience by 40% and improved site speed by 50%.",
+    "link": "https://youtu.be/Z7I5uSRHMHg",
+    "repo": "https://github.com/Barath1018/ai-startup-landing",
+    "image": "/images/projects/ai-startup-landing-page.png"
+  }
+]

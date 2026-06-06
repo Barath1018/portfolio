@@ -1,0 +1,77 @@
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // Handle subdomains for video editing portfolio
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
+        ],
+      },
+    ];
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'assets.leetcode.com',
+        pathname: '/static_assets/public/images/**',
+      },
+    ],
+  },
+  webpack(config) {
+    // Grab the existing rule that handles SVG imports
+    const fileLoaderRule = config.module.rules.find((rule) =>
+      rule.test?.test?.(".svg")
+    );
+
+    config.module.rules.push(
+      // Reapply the existing rule, but only for svg imports ending in ?url
+      {
+        ...fileLoaderRule,
+        test: /\.svg$/i,
+        resourceQuery: /url/, // *.svg?url
+      },
+      // Convert all other *.svg imports to React components
+      {
+        test: /\.svg$/i,
+        issuer: fileLoaderRule.issuer,
+        resourceQuery: { not: [...fileLoaderRule.resourceQuery.not, /url/] }, // exclude if *.svg?url
+        use: {
+          loader: "@svgr/webpack",
+          options: {
+            svgoConfig: {
+              plugins: [
+                {
+                  name: "preset-default",
+                  params: {
+                    overrides: {
+                      removeViewBox: false,
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        },
+      }
+    );
+
+    // Modify the file loader rule to ignore *.svg, since we have it handled now.
+    fileLoaderRule.exclude = /\.svg$/i;
+
+    return config;
+  },
+};
+
+// Dev-only tweaks to avoid OneDrive file lock issues locally; ignored on Vercel
+if (process.env.NODE_ENV === 'development' && !process.env.VERCEL) {
+  nextConfig.distDir = '.next-local';
+  nextConfig.outputFileTracing = false;
+}
+
+export default nextConfig;

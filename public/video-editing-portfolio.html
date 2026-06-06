@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barath S — Video Editor</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg:        #ffffff;
+    --bg2:       #f5f4f0;
+    --dark:      #111111;
+    --accent:    #ff3c00;
+    --accent2:   #ffcc00;
+    --muted:     #888888;
+    --border:    2px solid #111111;
+    --F-display: 'Syne', sans-serif;
+    --F-body:    'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--dark);
+    font-family: var(--F-body);
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 1.1rem 5vw;
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--bg);
+    border-bottom: var(--border);
+  }
+  .nav-logo {
+    font-family: var(--F-display);
+    font-size: 1.35rem; font-weight: 800;
+    letter-spacing: -0.03em; color: var(--dark);
+    text-transform: uppercase;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--dark); }
+  .nav-cta {
+    background: var(--accent); color: #fff; border: none;
+    padding: 0.55rem 1.6rem;
+    font-family: var(--F-display); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; border-radius: 2px; transition: opacity 0.2s;
+  }
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    padding: 120px 5vw 5rem;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 4rem; align-items: center;
+    border-bottom: var(--border);
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--F-display); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);
+    margin-bottom: 1.5rem; border: 1.5px solid #ddd;
+    padding: 6px 14px; border-radius: 2px;
+  }
+  .hero-eyebrow .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: #22c55e; animation: pulse 2s ease infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.5; transform: scale(1.3); }
+  }
+  .hero-title {
+    font-family: var(--F-display);
+    font-size: clamp(3.8rem, 8.5vw, 8rem);
+    font-weight: 800; line-height: 0.88;
+    letter-spacing: -0.04em; color: var(--dark);
+    margin-bottom: 1.8rem;
+  }
+  .hero-title .slab {
+    display: inline-block;
+    background: var(--accent); color: #fff;
+    padding: 0 0.14em; transform: rotate(-1.5deg);
+  }
+  .hero-title .outline {
+    -webkit-text-stroke: 2px var(--dark); color: transparent;
+  }
+  .hero-desc {
+    color: var(--muted); font-size: 15px; font-weight: 300;
+    max-width: 500px; line-height: 1.85; margin-bottom: 2.5rem;
+  }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-dark {
+    background: var(--dark); color: #fff; border: var(--border);
+    padding: 0.9rem 2.4rem; font-family: var(--F-display);
+    font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; cursor: pointer; border-radius: 2px;
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn-dark:hover { background: var(--accent); border-color: var(--accent); }
+  .btn-outline {
+    background: transparent; color: var(--dark); border: var(--border);
+    padding: 0.9rem 2.4rem; font-family: var(--F-display);
+    font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; cursor: pointer; border-radius: 2px;
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn-outline:hover { background: var(--dark); color: #fff; }
+
+  /* Hero right */
+  .hero-right { position: relative; }
+  .reel-tall {
+    background: var(--dark); aspect-ratio: 3/4;
+    border-radius: 4px; position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    border: var(--border);
+  }
+  .reel-bg-txt {
+    font-family: var(--F-display); font-size: 7rem; font-weight: 800;
+    color: rgba(255,255,255,0.04); letter-spacing: 0.15em; user-select: none;
+  }
+  .play-big {
+    position: absolute; width: 80px; height: 80px; border-radius: 50%;
+    background: var(--accent); display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: transform 0.25s, background 0.2s;
+    border: 3px solid #fff;
+  }
+  .play-big:hover { transform: scale(1.1); background: #ff6030; }
+  .play-tri-big {
+    width: 0; height: 0;
+    border-top: 13px solid transparent; border-bottom: 13px solid transparent;
+    border-left: 22px solid #fff; margin-left: 5px;
+  }
+  .reel-badge {
+    position: absolute; bottom: 1.2rem; left: 1.2rem;
+    background: var(--accent); color: #fff;
+    font-family: var(--F-display); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 5px 12px; border-radius: 2px;
+  }
+  .reel-year {
+    position: absolute; top: 1rem; right: 1rem;
+    background: var(--accent2); color: var(--dark);
+    font-family: var(--F-display); font-size: 0.8rem; font-weight: 800;
+    letter-spacing: 0.1em; padding: 4px 10px; border-radius: 2px;
+  }
+  .floating-tag {
+    position: absolute; top: 1.2rem; right: -1.2rem;
+    background: #fff; border: var(--border);
+    padding: 9px 14px; font-family: var(--F-display);
+    font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; transform: rotate(4deg);
+    color: var(--dark); border-radius: 2px; white-space: nowrap; z-index: 2;
+  }
+  .avail-dot {
+    display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+    background: #22c55e; margin-right: 5px; animation: pulse 1.5s ease infinite;
+  }
+
+  /* ── STATS BANDS ── */
+  .bands {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border-top: var(--border); border-bottom: var(--border);
+  }
+  .band {
+    padding: 2rem 2.5rem; border-right: var(--border);
+    transition: background 0.2s;
+  }
+  .band:last-child { border-right: none; }
+  .band:hover { background: var(--bg2); }
+  .band.red { background: var(--accent); color: #fff; }
+  .band.red:hover { background: #e53500; }
+  .band-num {
+    font-family: var(--F-display); font-size: 3rem; font-weight: 800;
+    letter-spacing: -0.04em; line-height: 1;
+  }
+  .band-lbl {
+    font-family: var(--F-body); font-size: 11px; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.1em; margin-top: 5px;
+  }
+  .band.red .band-lbl { color: rgba(255,255,255,0.65); }
+
+  /* ── WORK ── */
+  .section { padding: 5rem 5vw; }
+  .sec-head {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 2.5rem; padding-bottom: 1.2rem; border-bottom: var(--border);
+  }
+  .sec-title {
+    font-family: var(--F-display); font-size: clamp(2.2rem, 4vw, 3.2rem);
+    font-weight: 800; letter-spacing: -0.04em; line-height: 1;
+  }
+  .sec-title .acc { color: var(--accent); }
+  .sec-link {
+    font-family: var(--F-display); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none;
+    display: flex; align-items: center; gap: 6px;
+    transition: color 0.2s, gap 0.2s;
+  }
+  .sec-link:hover { color: var(--dark); gap: 10px; }
+  .sec-link::after { content: '→'; }
+
+  /* Work grid — 2 col layout to showcase both ratios */
+  .work-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  /* 16:9 cards span full width */
+  .work-card-wide {
+    grid-column: 1 / 3;
+    border: var(--border); border-radius: 4px; overflow: hidden;
+    cursor: pointer; transition: transform 0.25s, box-shadow 0.25s;
+    background: var(--bg);
+  }
+  .work-card-wide:hover { transform: translateY(-5px); box-shadow: 5px 5px 0 var(--dark); }
+
+  /* 9:16 cards side by side */
+  .work-card-tall {
+    border: var(--border); border-radius: 4px; overflow: hidden;
+    cursor: pointer; transition: transform 0.25s, box-shadow 0.25s;
+    background: var(--bg);
+  }
+  .work-card-tall:hover { transform: translateY(-5px); box-shadow: 5px 5px 0 var(--dark); }
+
+  .wc-thumb-wide {
+    background: var(--dark); aspect-ratio: 16/9;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--F-display); font-size: 4rem; font-weight: 800;
+    color: rgba(255,255,255,0.05); letter-spacing: 0.15em;
+    position: relative; overflow: hidden;
+  }
+  .wc-thumb-tall {
+    background: var(--dark); aspect-ratio: 9/16;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--F-display); font-size: 3rem; font-weight: 800;
+    color: rgba(255,255,255,0.05); letter-spacing: 0.1em;
+    position: relative; overflow: hidden;
+  }
+  .ratio-badge {
+    position: absolute; top: 0.8rem; left: 0.8rem;
+    background: rgba(0,0,0,0.55); color: #fff;
+    font-family: var(--F-display); font-size: 9px; font-weight: 700;
+    letter-spacing: 0.1em; padding: 3px 8px; border-radius: 2px;
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+  .wc-overlay {
+    position: absolute; inset: 0;
+    background: var(--accent); opacity: 0; transition: opacity 0.3s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .ov-play {
+    width: 56px; height: 56px; border-radius: 50%;
+    border: 2px solid #fff; display: flex; align-items: center; justify-content: center;
+  }
+  .ov-tri {
+    width: 0; height: 0;
+    border-top: 9px solid transparent; border-bottom: 9px solid transparent;
+    border-left: 16px solid #fff; margin-left: 3px;
+  }
+  .work-card-wide:hover .wc-overlay,
+  .work-card-tall:hover .wc-overlay { opacity: 0.85; }
+
+  .wc-body { padding: 1.1rem 1.3rem; }
+  .wc-tag {
+    display: inline-block; background: var(--accent); color: #fff;
+    font-family: var(--F-display); font-size: 9px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 2px; margin-bottom: 7px;
+  }
+  .wc-tag.tag-reel { background: var(--dark); }
+  .wc-name {
+    font-family: var(--F-display); font-size: 1.05rem; font-weight: 700;
+    letter-spacing: -0.02em; color: var(--dark);
+  }
+  .wc-meta { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+  /* ── SERVICES ── */
+  .services-section { background: var(--dark); color: #fff; border-top: var(--border); }
+  .services-section .sec-title { color: #fff; }
+  .services-section .sec-head { border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .svc-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.08); margin-top: 2.5rem;
+  }
+  .svc-card {
+    background: var(--dark); padding: 2.5rem 2rem;
+    transition: background 0.25s; cursor: default;
+    position: relative; overflow: hidden;
+  }
+  .svc-card::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px; background: var(--accent);
+    transform: scaleY(0); transition: transform 0.3s; transform-origin: bottom;
+  }
+  .svc-card:hover { background: #1a1a1a; }
+  .svc-card:hover::before { transform: scaleY(1); }
+  .svc-num {
+    font-family: var(--F-display); font-size: 3rem; font-weight: 800;
+    color: var(--accent); line-height: 1; margin-bottom: 1rem;
+  }
+  .svc-name {
+    font-family: var(--F-display); font-size: 1.2rem; font-weight: 700;
+    letter-spacing: -0.02em; color: #fff; margin-bottom: 0.75rem;
+  }
+  .svc-desc { font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.8; font-weight: 300; }
+
+  /* ── TOOLS ── */
+  .tools-section { border-top: var(--border); }
+  .tools-flex { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 2.5rem; }
+  .tool-pill {
+    border: var(--border); padding: 0.65rem 1.3rem;
+    font-family: var(--F-display); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    cursor: default; border-radius: 2px; transition: background 0.2s, color 0.2s;
+  }
+  .tool-pill:hover { background: var(--dark); color: #fff; }
+  .tool-pill.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  /* ── ABOUT ── */
+  .about-section { background: var(--bg2); border-top: var(--border); }
+  .about-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .about-heading {
+    font-family: var(--F-display); font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 800; letter-spacing: -0.04em; line-height: 1;
+  }
+  .about-heading .acc { color: var(--accent); }
+  .about-sub { font-size: 14px; color: var(--muted); font-weight: 300; line-height: 1.85; margin-top: 1.2rem; }
+  .about-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-top: 2rem; }
+  .about-detail-key {
+    font-family: var(--F-display); font-size: 9px; font-weight: 700;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px;
+  }
+  .about-detail-val { font-size: 13px; font-weight: 500; color: var(--dark); }
+  .about-right { }
+  .about-quote {
+    font-family: var(--F-display); font-size: 1.5rem; font-weight: 800;
+    letter-spacing: -0.03em; line-height: 1.2; color: var(--dark);
+    border-left: 4px solid var(--accent); padding-left: 1.2rem;
+  }
+  .about-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1.5rem; }
+  .about-tag {
+    border: 1.5px solid #ddd; padding: 5px 12px;
+    font-family: var(--F-display); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    border-radius: 2px; color: var(--muted);
+  }
+
+  /* ── CONTACT ── */
+  .contact-section { background: var(--bg2); border-top: var(--border); }
+  .contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+  .contact-heading {
+    font-family: var(--F-display); font-size: clamp(2.8rem, 5vw, 5rem);
+    font-weight: 800; letter-spacing: -0.04em; line-height: 0.9;
+  }
+  .contact-heading .slab {
+    display: inline-block; background: var(--accent); color: #fff;
+    padding: 0 0.1em; transform: rotate(-1deg);
+  }
+  .contact-sub { font-size: 14px; color: var(--muted); font-weight: 300; line-height: 1.85; margin-top: 1.5rem; max-width: 360px; }
+  .contact-email {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-top: 1.5rem; font-family: var(--F-display); font-size: 12px;
+    font-weight: 700; color: var(--dark); text-decoration: none;
+    border-bottom: 2px solid var(--accent); padding-bottom: 2px;
+  }
+  .contact-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 1.2rem; }
+  .cbadge {
+    border: 1.5px solid #ddd; padding: 5px 12px;
+    font-family: var(--F-display); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase; border-radius: 2px; color: var(--muted);
+  }
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; margin-top: 0.5rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-field input, .form-field textarea {
+    width: 100%; background: #fff; border: var(--border); color: var(--dark);
+    padding: 0.9rem 1rem; font-family: var(--F-body); font-size: 13px;
+    outline: none; resize: none; border-radius: 2px; transition: border-color 0.2s;
+  }
+  .form-field input:focus, .form-field textarea:focus { border-color: var(--accent); }
+  .form-field input::placeholder, .form-field textarea::placeholder {
+    color: #bbb; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .submit-btn {
+    background: var(--accent); color: #fff; border: none; padding: 1rem; width: 100%;
+    font-family: var(--F-display); font-size: 13px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer;
+    border-radius: 2px; transition: background 0.2s;
+  }
+  .submit-btn:hover { background: #e03000; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 2rem 5vw; display: flex; justify-content: space-between; align-items: center;
+    border-top: var(--border); background: var(--dark); color: rgba(255,255,255,0.35);
+  }
+  .footer-copy { font-size: 11px; letter-spacing: 0.06em; font-family: var(--F-display); }
+  .social-links { display: flex; gap: 1.5rem; }
+  .social-links a {
+    color: rgba(255,255,255,0.35); text-decoration: none;
+    font-family: var(--F-display); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.2s;
+  }
+  .social-links a:hover { color: var(--accent); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero-left > * { animation: fadeUp 0.7s ease both; }
+  .hero-eyebrow { animation-delay: 0.05s; }
+  .hero-title   { animation-delay: 0.18s; }
+  .hero-desc    { animation-delay: 0.32s; }
+  .hero-btns    { animation-delay: 0.44s; }
+  .hero-right   { animation: fadeUp 0.8s 0.25s ease both; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">BARATH<span>.</span>S</div>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Hire Me</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">
+      <span class="dot"></span>
+      Available for freelance
+    </div>
+    <h1 class="hero-title">
+      I MAKE<br>
+      <span class="slab">VIDEOS</span><br>
+      <span class="outline">THAT HIT.</span>
+    </h1>
+    <p class="hero-desc">
+      I make videos that stop the scroll. Reels, shorts, brand content — 
+      edited to hit hard in every ratio. Based in Tamil Nadu, working worldwide.
+    </p>
+    <div class="hero-btns">
+      <button class="btn-dark" onclick="document.getElementById('work').scrollIntoView({behavior:'smooth'})">View My Work</button>
+      <button class="btn-outline" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get a Quote</button>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="floating-tag"><span class="avail-dot"></span>Open for Work</div>
+    <div class="reel-tall">
+      <span class="reel-bg-txt">▶</span>
+      <div class="play-big"><div class="play-tri-big"></div></div>
+      <div class="reel-badge">@zenix_mp4</div>
+      <div class="reel-year">2025</div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BANDS -->
+<div class="bands">
+  <div class="band">
+    <div class="band-num">4</div>
+    <div class="band-lbl">Client Videos</div>
+  </div>
+  <div class="band red">
+    <div class="band-num">5+</div>
+    <div class="band-lbl">Years Editing</div>
+  </div>
+  <div class="band">
+    <div class="band-num">2</div>
+    <div class="band-lbl">Ratios Mastered</div>
+  </div>
+  <div class="band">
+    <div class="band-num">∞</div>
+    <div class="band-lbl">Frames to Go</div>
+  </div>
+</div>
+
+<!-- WORK -->
+<section id="work" class="section">
+  <div class="sec-head">
+    <div class="sec-title">MY <span class="acc">WORK</span></div>
+    <a href="https://instagram.com/zenix_mp4" target="_blank" class="sec-link">See More on Instagram</a>
+  </div>
+
+  <div class="work-grid">
+
+    <!-- 16:9 Client Video 1 -->
+    <div class="work-card-wide">
+      <div class="wc-thumb-wide">
+        16:9
+        <span class="ratio-badge">16 : 9</span>
+        <div class="wc-overlay"><div class="ov-play"><div class="ov-tri"></div></div></div>
+      </div>
+      <div class="wc-body">
+        <span class="wc-tag">Client Work</span>
+        <div class="wc-name">Client Video 01 — Landscape Edit</div>
+        <div class="wc-meta">Video Editing · Color Grading · 16:9 · 2025</div>
+      </div>
+    </div>
+
+    <!-- 16:9 Client Video 2 -->
+    <div class="work-card-wide">
+      <div class="wc-thumb-wide">
+        16:9
+        <span class="ratio-badge">16 : 9</span>
+        <div class="wc-overlay"><div class="ov-play"><div class="ov-tri"></div></div></div>
+      </div>
+      <div class="wc-body">
+        <span class="wc-tag">Client Work</span>
+        <div class="wc-name">Client Video 02 — Landscape Edit</div>
+        <div class="wc-meta">Video Editing · Motion · 16:9 · 2025</div>
+      </div>
+    </div>
+
+    <!-- 9:16 Client Video 1 -->
+    <div class="work-card-tall">
+      <div class="wc-thumb-tall">
+        9:16
+        <span class="ratio-badge">9 : 16</span>
+        <div class="wc-overlay"><div class="ov-play"><div class="ov-tri"></div></div></div>
+      </div>
+      <div class="wc-body">
+        <span class="wc-tag tag-reel">Reel / Short</span>
+        <div class="wc-name">Client Reel 01</div>
+        <div class="wc-meta">Reels Edit · Transitions · 9:16 · 2025</div>
+      </div>
+    </div>
+
+    <!-- 9:16 Client Video 2 -->
+    <div class="work-card-tall">
+      <div class="wc-thumb-tall">
+        9:16
+        <span class="ratio-badge">9 : 16</span>
+        <div class="wc-overlay"><div class="ov-play"><div class="ov-tri"></div></div></div>
+      </div>
+      <div class="wc-body">
+        <span class="wc-tag tag-reel">Reel / Short</span>
+        <div class="wc-name">Client Reel 02</div>
+        <div class="wc-meta">Reels Edit · Color · 9:16 · 2025</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="section services-section">
+  <div class="sec-head">
+    <div class="sec-title">SERVICES</div>
+  </div>
+  <div class="svc-grid">
+    <div class="svc-card">
+      <div class="svc-num">01</div>
+      <div class="svc-name">Reels & Shorts</div>
+      <div class="svc-desc">Scroll-stopping 9:16 content for Instagram, YouTube Shorts, and TikTok. Fast cuts, smooth transitions, built to go viral.</div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-num">02</div>
+      <div class="svc-name">Video Editing</div>
+      <div class="svc-desc">Clean, precise 16:9 edits for YouTube, brand videos, and client projects. Every cut intentional, every frame polished.</div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-num">03</div>
+      <div class="svc-name">Color Grading</div>
+      <div class="svc-desc">Cinematic color work using Premiere Pro & After Effects — mood-driven looks that make your visuals unforgettable.</div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-num">04</div>
+      <div class="svc-name">Motion Graphics</div>
+      <div class="svc-desc">Animated titles, text effects, and motion graphics using After Effects & Alight Motion to elevate your content.</div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-num">05</div>
+      <div class="svc-name">Brand Content</div>
+      <div class="svc-desc">Edits built around your brand identity — consistent style, sharp delivery, made to represent your business perfectly.</div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-num">06</div>
+      <div class="svc-name">Quick Turnaround</div>
+      <div class="svc-desc">Need it fast? I deliver quality edits in 24–48 hrs. Revisions included. No compromises on output quality.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools" class="section tools-section">
+  <div class="sec-head">
+    <div class="sec-title">MY <span class="acc">TOOLKIT</span></div>
+  </div>
+  <div class="tools-flex">
+    <div class="tool-pill active">Adobe Premiere Pro</div>
+    <div class="tool-pill active">After Effects</div>
+    <div class="tool-pill active">CapCut</div>
+    <div class="tool-pill active">Alight Motion</div>
+    <div class="tool-pill">Photoshop</div>
+    <div class="tool-pill">VN Editor</div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section about-section">
+  <div class="about-inner">
+    <div>
+      <div class="about-heading">
+        HI, I'M<br>
+        <span class="acc">BARATH S</span>
+      </div>
+      <p class="about-sub">
+        A freelance video editor from Tamil Nadu, India with 5+ years of editing experience
+        and 2+ years of professional laptop editing. I've worked with real clients,
+        delivered in both 9:16 and 16:9 ratios, and I live for the moment a cut hits just right.
+      </p>
+      <div class="about-detail-grid">
+        <div>
+          <div class="about-detail-key">Based in</div>
+          <div class="about-detail-val">Tamil Nadu, India</div>
+        </div>
+        <div>
+          <div class="about-detail-key">Experience</div>
+          <div class="about-detail-val">5+ Years Editing</div>
+        </div>
+        <div>
+          <div class="about-detail-key">Speciality</div>
+          <div class="about-detail-val">Reels & Brand Videos</div>
+        </div>
+        <div>
+          <div class="about-detail-key">Available</div>
+          <div class="about-detail-val">Worldwide — Remote</div>
+        </div>
+      </div>
+    </div>
+    <div class="about-right">
+      <div class="about-quote">
+        "I make videos<br>that stop<br>the scroll."
+      </div>
+      <div class="about-tags">
+        <span class="about-tag">9:16 Reels</span>
+        <span class="about-tag">16:9 Videos</span>
+        <span class="about-tag">Color Grading</span>
+        <span class="about-tag">Motion Graphics</span>
+        <span class="about-tag">Fast Delivery</span>
+        <span class="about-tag">Freelance</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section contact-section">
+  <div class="contact-inner">
+    <div>
+      <h2 class="contact-heading">
+        LET'S<br>
+        MAKE<br>
+        <span class="slab">MAGIC</span>
+      </h2>
+      <p class="contact-sub">
+        Got a video idea? Let's bring it to life. Drop me a message and
+        I'll get back to you within 24 hours.
+      </p>
+      <a href="mailto:aesthifystudio@gmail.com" class="contact-email">
+        aesthifystudio@gmail.com
+      </a>
+      <div class="contact-badges">
+        <span class="cbadge">Freelance</span>
+        <span class="cbadge">Remote</span>
+        <span class="cbadge">24hr Reply</span>
+        <span class="cbadge">Worldwide</span>
+      </div>
+    </div>
+    <div class="contact-form">
+      <div class="form-row">
+        <div class="form-field"><input type="text" placeholder="Your Name"></div>
+        <div class="form-field"><input type="email" placeholder="Email Address"></div>
+      </div>
+      <div class="form-field"><input type="text" placeholder="Project Type (Reel, Brand Video, Ad…)"></div>
+      <div class="form-field"><input type="text" placeholder="Budget Range"></div>
+      <div class="form-field"><textarea rows="4" placeholder="Tell me about your project..."></textarea></div>
+      <button class="submit-btn" onclick="window.location.href='mailto:aesthifystudio@gmail.com'">
+        Send Message — Let's Go →
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-copy">© 2025 Barath S. All rights reserved.</span>
+  <div class="social-links">
+    <a href="https://instagram.com/zenix_mp4" target="_blank">Instagram</a>
+    <a href="mailto:aesthifystudio@gmail.com">Email</a>
+  </div>
+</footer>
+
+</body>
+</html>
