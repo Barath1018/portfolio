@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useCallback, useMemo } from 'react';
+import Image from 'next/image';
 
 const DEFAULT_INNER_GRADIENT = 'linear-gradient(145deg,#60496e8c 0%,#71C4FF44 100%)';
 
@@ -521,23 +522,24 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                 backfaceVisibility: 'hidden',
               }}
             >
-              <img
-                className="w-[75%] absolute left-1/2 bottom-[-1px] will-change-transform transition-transform duration-[120ms] ease-out"
-                src={avatarUrl}
-                alt={`${name || 'User'} avatar`}
-                loading="lazy"
+              <div className="w-[75%] absolute left-1/2 bottom-[-1px] aspect-[4/5] will-change-transform transition-transform duration-[120ms] ease-out"
                 style={{
                   transformOrigin: '50% 100%',
                   transform:
                     'translateX(calc(-50% + (var(--pointer-from-left) - 0.5) * 6px)) translateZ(0) scaleY(calc(1 + (var(--pointer-from-top) - 0.5) * 0.02)) scaleX(calc(1 + (var(--pointer-from-left) - 0.5) * 0.01))',
-                  borderRadius: cardRadius,
                   backfaceVisibility: 'hidden',
-                }}
-                onError={e => {
-                  const t = e.target as HTMLImageElement;
-                  t.style.display = 'none';
-                }}
-              />
+                }}>
+                <Image
+                  src={avatarUrl}
+                  alt={`${name || 'User'} avatar`}
+                  fill
+                  className="object-cover"
+                  style={{
+                    borderRadius: cardRadius,
+                  }}
+                  unoptimized
+                />
+              </div>
             </div>
 
             {/* User info bar — outside luminosity div so colors render correctly */}
@@ -559,20 +561,15 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
               >
                 <div className="flex items-center gap-3">
                   <div
-                    className="rounded-full overflow-hidden border border-white/20 flex-shrink-0"
+                    className="relative rounded-full overflow-hidden border border-white/20 flex-shrink-0"
                     style={{ width: '40px', height: '40px' }}
                   >
-                    <img
-                      className="w-full h-full object-cover object-top rounded-full"
+                    <Image
+                      className="object-cover object-top"
                       src={miniAvatarUrl || avatarUrl}
                       alt={`${name || 'User'} mini avatar`}
-                      loading="lazy"
-                      style={{ display: 'block', borderRadius: '50%' }}
-                      onError={e => {
-                        const t = e.target as HTMLImageElement;
-                        t.style.opacity = '0.5';
-                        t.src = avatarUrl!;
-                      }}
+                      fill
+                      unoptimized
                     />
                   </div>
                   <div className="flex flex-col items-start gap-1">

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card } from "@/components/Card";
 import { SectionHeader } from "@/components/SectionHeader";
+import Image from 'next/image';
 import { Plus, Trash2, Edit2, Save, X, ExternalLink, Github, Image as ImageIcon, Upload, Loader2 } from 'lucide-react';
 
 interface Project {
@@ -289,7 +290,15 @@ export default function AdminPortal() {
                   <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Project Image</label>
                   <div className="flex items-center gap-4 mt-2">
                     {editForm.image && (
-                      <img src={editForm.image} alt="Preview" className="w-20 h-20 object-cover rounded-lg border border-gray-700" />
+                      <div className="relative w-20 h-20 flex-shrink-0">
+                        <Image 
+                          src={editForm.image} 
+                          alt="Preview" 
+                          fill 
+                          className="object-cover rounded-lg border border-gray-700"
+                          unoptimized
+                        />
+                      </div>
                     )}
                     <label className="flex-grow">
                       <div className="flex items-center justify-center w-full h-20 px-4 transition bg-gray-800 border-2 border-gray-700 border-dashed rounded-lg appearance-none cursor-pointer hover:border-purple-500 focus:outline-none">
@@ -334,7 +343,17 @@ export default function AdminPortal() {
             <Card key={index} className="p-6 bg-gray-800/50 border-gray-700 flex flex-col">
               <div className="flex justify-between items-start mb-4">
                 <div className="flex gap-4">
-                  {project.image && <img src={project.image} alt="" className="size-16 rounded-lg object-cover border border-gray-700" />}
+                  {project.image && (
+                    <div className="relative size-16 flex-shrink-0">
+                      <Image 
+                        src={project.image} 
+                        alt="" 
+                        fill 
+                        className="object-cover rounded-lg border border-gray-700"
+                        unoptimized
+                      />
+                    </div>
+                  )}
                   <div>
                     <div className="text-purple-400 text-xs font-bold uppercase tracking-widest">
                       {project.company} &bull; {project.year}

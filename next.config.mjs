@@ -21,6 +21,10 @@ const nextConfig = {
         hostname: 'assets.leetcode.com',
         pathname: '/static_assets/public/images/**',
       },
+      {
+        protocol: 'https',
+        hostname: '*.public.blob.vercel-storage.com',
+      },
     ],
   },
   webpack(config) {
