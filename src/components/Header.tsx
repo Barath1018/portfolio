@@ -82,7 +82,7 @@ export const Header = () => {
 
   return (
     <header className="fixed top-0 left-0 right-0 w-full z-50">
-      <div className="w-full relative bg-white/10 backdrop-blur-sm shadow-md">
+      <div className="w-full relative bg-white/5 backdrop-blur-2xl shadow-lg shadow-purple-500/5 border-b border-white/5 before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent before:animate-shimmer before:pointer-events-none">
         <div className="flex justify-between items-center px-4 py-3 relative">
           {/* Left side: mobile toggle logo & desktop refresh logo */}
           <div className="flex items-center gap-2 flex-shrink-0">

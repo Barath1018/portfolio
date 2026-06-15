@@ -23,6 +23,30 @@
   display: none; /* Chrome, Safari, Opera */
 }
 
+/* Thin custom scrollbar */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(192, 132, 245, 0.3) transparent;
+}
+.scrollbar-thin::-webkit-scrollbar {
+  height: 4px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(192, 132, 245, 0.3);
+  border-radius: 4px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: rgba(192, 132, 245, 0.5);
+}
+
+/* Hide built-in GitHubCalendar legend (we render our own) */
+.github-calendar-wrapper footer {
+  display: none !important;
+}
+
 @layer components {
   .nav-item {
     @apply px-4 py-1.5 rounded-full text-white/70 text-sm font-semibold hover:bg-white/10 hover:text-white transition duration-300;
@@ -67,6 +91,10 @@
     transform: scale(2);
     opacity: 0;
   }
+}
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
 .animate-ping-large {
@@ -158,5 +186,10 @@
   }
   html {
     @apply font-sans;
+    overflow-y: scroll;
+    scrollbar-width: none;
+  }
+  html::-webkit-scrollbar {
+    display: none;
   }
 }

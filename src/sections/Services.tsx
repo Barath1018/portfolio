@@ -1,8 +1,6 @@
 import { SectionHeader } from "@/components/SectionHeader";
-import { Card } from "@/components/Card";
-import { FaCode, FaPaintBrush, FaRobot, FaVideo } from "react-icons/fa";
+import { FaCode, FaRobot, FaVideo } from "react-icons/fa";
 import { TbAutomation } from "react-icons/tb";
-import { BsPalette } from "react-icons/bs";
 
 const services = [
   {
@@ -20,7 +18,7 @@ const services = [
   {
     icon: FaVideo,
     title: "Video Editing",
-    description: "Creating cinematic edits, engaging short-form content, AMVs, motion visuals, and high-retention videos using professional editing workflows.",
+    description: "Creating cinematic edits, engaging short-form content, AMVs, motion visuals, and high-retention videos.",
     color: "#9999FF",
   },
   {
@@ -42,13 +40,14 @@ export const ServicesSection = () => {
         />
         <div className="mt-12 lg:mt-20 grid grid-cols-2 lg:grid-cols-4 gap-4">
           {services.map((service) => (
-            <Card
+            <div
               key={service.title}
-              className="p-6 lg:p-8 hover:-translate-y-1 transition-transform duration-300 cursor-default"
+              className="group bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 lg:p-8 hover:-translate-y-1 transition-all duration-300 cursor-default hover:border-white/20"
+              style={{ boxShadow: `0 0 0 0px ${service.color}00` }}
             >
               <div
-                className="w-14 h-14 rounded-xl flex items-center justify-center mb-5"
-                style={{ backgroundColor: `${service.color}20` }}
+                className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 transition-all duration-300 group-hover:scale-110"
+                style={{ backgroundColor: `${service.color}15` }}
               >
                 <service.icon
                   className="size-7"
@@ -58,10 +57,10 @@ export const ServicesSection = () => {
               <h3 className="text-xl font-semibold text-white mb-3">
                 {service.title}
               </h3>
-              <p className="text-sm text-white/60 leading-relaxed">
+              <p className="text-sm text-white/50 leading-relaxed">
                 {service.description}
               </p>
-            </Card>
+            </div>
           ))}
         </div>
       </div>

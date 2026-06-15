@@ -23,8 +23,8 @@ export async function GET() {
         
         for (const p of localProjects) {
           await sql`
-            INSERT INTO projects (company, year, title, description, link, repo, image)
-            VALUES (${p.company}, ${p.year}, ${p.title}, ${p.description}, ${p.link}, ${p.repo}, ${p.image})
+            INSERT INTO projects (company, year, title, description, link, repo, image, tags)
+            VALUES (${p.company}, ${p.year}, ${p.title}, ${p.description}, ${p.link}, ${p.repo}, ${p.image}, ${p.tags ? (Array.isArray(p.tags) ? p.tags.join(',') : p.tags) : null})
           `;
         }
         const migratedProjects = await sql`SELECT * FROM projects ORDER BY created_at DESC`;
@@ -53,14 +53,15 @@ export async function POST(request: Request) {
             description = ${project.description}, 
             link = ${project.link}, 
             repo = ${project.repo}, 
-            image = ${project.image}
+            image = ${project.image},
+            tags = ${project.tags ? (Array.isArray(project.tags) ? project.tags.join(',') : project.tags) : null}
         WHERE id = ${project.id}
       `;
     } else {
       // Insert new
       await sql`
-        INSERT INTO projects (company, year, title, description, link, repo, image)
-        VALUES (${project.company}, ${project.year}, ${project.title}, ${project.description}, ${project.link}, ${project.repo}, ${project.image})
+        INSERT INTO projects (company, year, title, description, link, repo, image, tags)
+        VALUES (${project.company}, ${project.year}, ${project.title}, ${project.description}, ${project.link}, ${project.repo}, ${project.image}, ${project.tags ? (Array.isArray(project.tags) ? project.tags.join(',') : project.tags) : null})
       `;
     }
     

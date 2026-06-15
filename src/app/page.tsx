@@ -1,13 +1,19 @@
 import { Header } from '@/components/Header';
-import { HeroSection } from '@/sections/Hero'; 
-import { ProjectsSection } from '@/sections/Projects'; 
+import { HeroSection } from '@/sections/Hero';
+import { ProjectsSection } from '@/sections/Projects';
 import { TapeSection } from '@/sections/Tape';
 import { ServicesSection } from '@/sections/Services';
 import { AboutSection } from '@/sections/About';
 import { ContactSection } from '@/sections/Contact';
 import { Footer } from '@/sections/Footer';
 import Particles from "@/components/Particles";
-export default function Home() {
+import { getProjects } from '@/lib/getProjects';
+
+export const dynamic = 'force-dynamic';
+
+export default async function Home() {
+  const projects = await getProjects();
+
   return (
     <div>
       <Particles />
@@ -16,7 +22,7 @@ export default function Home() {
         <HeroSection/>
       </div>
       <div id="projects">
-        <ProjectsSection/>
+        <ProjectsSection projects={projects} />
       </div>
       <TapeSection/>
       <ServicesSection/>

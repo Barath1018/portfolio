@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Card } from "@/components/Card";
 import { SectionHeader } from "@/components/SectionHeader";
 import Image from 'next/image';
-import { Plus, Trash2, Edit2, Save, X, ExternalLink, Github, Image as ImageIcon, Upload, Loader2 } from 'lucide-react';
+import { Plus, Trash2, Edit2, Save, X, ExternalLink, Github, Upload, Loader2 } from 'lucide-react';
 
 interface Project {
   id?: number;
@@ -15,6 +15,7 @@ interface Project {
   link?: string;
   repo?: string;
   image: string;
+  tags?: string;
 }
 
 export default function AdminPortal() {
@@ -28,6 +29,7 @@ export default function AdminPortal() {
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState('');
+  const [imageCacheBuster, setImageCacheBuster] = useState<number>(0);
 
   useEffect(() => {
     const authStatus = localStorage.getItem('admin_auth');
@@ -114,12 +116,13 @@ export default function AdminPortal() {
         body: JSON.stringify(project),
       });
       if (response.ok) {
-        fetchProjects();
-        setMessage('Successfully saved!');
-        setTimeout(() => setMessage(''), 3000);
         setIsEditing(null);
         setIsAdding(false);
         setEditForm(null);
+        setMessage('Successfully saved!');
+        setImageCacheBuster(Date.now());
+        setTimeout(() => setMessage(''), 3000);
+        await fetchProjects();
       } else {
         setMessage('Failed to save.');
       }
@@ -138,7 +141,7 @@ export default function AdminPortal() {
 
   const deleteProject = async (id: number) => {
     if (!confirm('Are you sure you want to delete this project?')) return;
-    
+
     setLoading(true);
     try {
       const response = await fetch('/api/projects', {
@@ -167,7 +170,8 @@ export default function AdminPortal() {
       description: '',
       link: '',
       repo: '',
-      image: ''
+      image: '',
+      tags: ''
     });
   };
 
@@ -181,7 +185,7 @@ export default function AdminPortal() {
           </div>
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
-              <input 
+              <input
                 type="password"
                 placeholder="Password"
                 className="w-full bg-gray-800 border border-gray-700 rounded-xl p-4 text-white outline-none focus:border-purple-500 transition-all"
@@ -191,7 +195,7 @@ export default function AdminPortal() {
               />
             </div>
             {loginError && <p className="text-red-500 text-sm text-center">{loginError}</p>}
-            <button 
+            <button
               type="submit"
               disabled={loading}
               className="w-full bg-purple-500 hover:bg-purple-600 disabled:bg-purple-500/50 text-white py-4 rounded-xl font-bold transition-all shadow-lg shadow-purple-500/20"
@@ -209,16 +213,16 @@ export default function AdminPortal() {
       <div className="container max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-10">
           <div className="flex flex-col">
-            <SectionHeader 
+            <SectionHeader
               eyebrow="Admin Portal"
-              title="Manage Projects" 
-              description="Add, edit, or remove projects from your portfolio." 
+              title="Manage Projects"
+              description="Add, edit, or remove projects from your portfolio."
             />
             <button onClick={handleLogout} className="text-gray-500 hover:text-white text-sm mt-2 text-left transition-colors flex items-center gap-1">
               <X size={14} /> Logout
             </button>
           </div>
-          <button 
+          <button
             onClick={startAdding}
             className="bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 transition-all shadow-lg shadow-purple-500/20"
           >
@@ -235,106 +239,157 @@ export default function AdminPortal() {
 
         {(isEditing !== null || isAdding) && editForm && (
           <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <Card className="max-w-2xl w-full p-8 bg-gray-900 border-gray-800 max-h-[90vh] overflow-y-auto">
-              <h2 className="text-2xl font-bold mb-6 text-white">{isAdding ? 'Add New Project' : 'Edit Project'}</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Company</label>
-                  <input 
-                    className="w-full bg-gray-800 border border-gray-700 rounded-lg p-2 text-white outline-none focus:border-purple-500"
-                    value={editForm.company}
-                    onChange={e => setEditForm({...editForm, company: e.target.value})}
-                  />
+            <div className="w-full max-w-4xl bg-gray-900 border border-gray-700 rounded-2xl p-6 flex flex-col lg:flex-row gap-6">
+              <div className="flex-1 min-w-0">
+                <h2 className="text-lg font-bold mb-4 text-white">{isAdding ? 'Add New Project' : 'Edit Project'}</h2>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">Company</label>
+                    <input
+                      className="w-full bg-gray-800 border border-gray-700 rounded-lg p-2 text-sm text-white outline-none focus:border-purple-500"
+                      value={editForm.company}
+                      onChange={e => setEditForm({...editForm, company: e.target.value})}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">Year</label>
+                    <input
+                      className="w-full bg-gray-800 border border-gray-700 rounded-lg p-2 text-sm text-white outline-none focus:border-purple-500"
+                      value={editForm.year}
+                      onChange={e => setEditForm({...editForm, year: e.target.value})}
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">Title</label>
+                    <input
+                      className="w-full bg-gray-800 border border-gray-700 rounded-lg p-2 text-sm text-white outline-none focus:border-purple-500"
+                      value={editForm.title}
+                      onChange={e => setEditForm({...editForm, title: e.target.value})}
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">Description</label>
+                    <textarea
+                      className="w-full bg-gray-800 border border-gray-700 rounded-lg p-2 text-sm text-white outline-none focus:border-purple-500 h-20 resize-none"
+                      value={editForm.description}
+                      onChange={e => setEditForm({...editForm, description: e.target.value})}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">Demo Link</label>
+                    <input
+                      className="w-full bg-gray-800 border border-gray-700 rounded-lg p-2 text-sm text-white outline-none focus:border-purple-500"
+                      value={editForm.link}
+                      onChange={e => setEditForm({...editForm, link: e.target.value})}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">Repo Link</label>
+                    <input
+                      className="w-full bg-gray-800 border border-gray-700 rounded-lg p-2 text-sm text-white outline-none focus:border-purple-500"
+                      value={editForm.repo}
+                      onChange={e => setEditForm({...editForm, repo: e.target.value})}
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">Tech Stack (comma separated)</label>
+                    <input
+                      className="w-full bg-gray-800 border border-gray-700 rounded-lg p-2 text-sm text-white outline-none focus:border-purple-500"
+                      value={editForm.tags || ''}
+                      onChange={e => setEditForm({...editForm, tags: e.target.value})}
+                      placeholder="React, n8n, Python, Tailwind"
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">Project Image</label>
+                    <div className="flex items-center gap-3 mt-1">
+                      {editForm.image && (
+                        <div className="relative w-14 h-14 flex-shrink-0">
+                          <Image
+                            src={editForm.image}
+                            alt="Preview"
+                            fill
+                            className="object-cover rounded-lg border border-gray-700"
+                            unoptimized
+                          />
+                        </div>
+                      )}
+                      <label className="flex-grow">
+                        <div className="flex items-center justify-center w-full h-14 px-4 transition bg-gray-800 border-2 border-gray-700 border-dashed rounded-lg appearance-none cursor-pointer hover:border-purple-500">
+                          <span className="flex items-center space-x-2">
+                            {uploading ? (
+                              <Loader2 className="w-4 h-4 text-purple-500 animate-spin" />
+                            ) : (
+                              <Upload className="w-4 h-4 text-gray-400" />
+                            )}
+                            <span className="text-xs text-gray-400">{uploading ? 'Uploading...' : 'Click to upload'}</span>
+                          </span>
+                          <input type="file" className="hidden" onChange={handleImageUpload} accept="image/*" disabled={uploading} />
+                        </div>
+                      </label>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Year</label>
-                  <input 
-                    className="w-full bg-gray-800 border border-gray-700 rounded-lg p-2 text-white outline-none focus:border-purple-500"
-                    value={editForm.year}
-                    onChange={e => setEditForm({...editForm, year: e.target.value})}
-                  />
+                <div className="flex justify-end gap-3 mt-5">
+                  <button
+                    onClick={() => { setIsAdding(false); setIsEditing(null); setEditForm(null); }}
+                    className="px-5 py-1.5 rounded-lg font-bold text-sm text-gray-400 hover:text-white transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => saveProject(editForm)}
+                    disabled={loading || uploading}
+                    className="bg-purple-500 hover:bg-purple-600 disabled:bg-purple-500/50 text-white px-6 py-1.5 rounded-lg font-bold text-sm flex items-center gap-2 transition-all"
+                  >
+                    {loading ? <Loader2 className="size-3 animate-spin" /> : <Save size={14} />}
+                    <span>{isAdding ? 'Create' : 'Save'}</span>
+                  </button>
                 </div>
-                <div className="md:col-span-2">
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Title</label>
-                  <input 
-                    className="w-full bg-gray-800 border border-gray-700 rounded-lg p-2 text-white outline-none focus:border-purple-500"
-                    value={editForm.title}
-                    onChange={e => setEditForm({...editForm, title: e.target.value})}
-                  />
-                </div>
-                <div className="md:col-span-2">
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Description</label>
-                  <textarea 
-                    className="w-full bg-gray-800 border border-gray-700 rounded-lg p-2 text-white outline-none focus:border-purple-500 h-24"
-                    value={editForm.description}
-                    onChange={e => setEditForm({...editForm, description: e.target.value})}
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Demo Link</label>
-                  <input 
-                    className="w-full bg-gray-800 border border-gray-700 rounded-lg p-2 text-white outline-none focus:border-purple-500"
-                    value={editForm.link}
-                    onChange={e => setEditForm({...editForm, link: e.target.value})}
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Repo Link</label>
-                  <input 
-                    className="w-full bg-gray-800 border border-gray-700 rounded-lg p-2 text-white outline-none focus:border-purple-500"
-                    value={editForm.repo}
-                    onChange={e => setEditForm({...editForm, repo: e.target.value})}
-                  />
-                </div>
-                <div className="md:col-span-2">
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Project Image</label>
-                  <div className="flex items-center gap-4 mt-2">
-                    {editForm.image && (
-                      <div className="relative w-20 h-20 flex-shrink-0">
-                        <Image 
-                          src={editForm.image} 
-                          alt="Preview" 
-                          fill 
-                          className="object-cover rounded-lg border border-gray-700"
-                          unoptimized
-                        />
+              </div>
+
+              <div className="hidden lg:flex flex-col w-[260px] flex-shrink-0">
+                <span className="text-[10px] font-bold text-gray-500 uppercase mb-2">Preview</span>
+                <div className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden flex flex-col shadow-xl shadow-black/5">
+                  <div className="relative h-28 w-full overflow-hidden rounded-t-2xl">
+                    {editForm.image ? (
+                      <Image key={editForm.image} src={editForm.image} alt={editForm.title} width={520} height={280} className="w-full h-full object-cover" unoptimized />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-purple-500/30 to-sky-500/30" />
+                    )}
+                  </div>
+                  <div className="p-3 flex flex-col flex-grow">
+                    {(editForm.company || editForm.year) && (
+                      <div className="flex items-center gap-1.5 mb-1.5">
+                        {editForm.company && <span className="text-[8px] font-bold uppercase tracking-widest text-[#c084f5]">{editForm.company}</span>}
+                        {editForm.company && editForm.year && <span className="text-white/20 text-[8px]">&bull;</span>}
+                        {editForm.year && <span className="text-[8px] font-bold uppercase tracking-widest text-white/60">{editForm.year}</span>}
                       </div>
                     )}
-                    <label className="flex-grow">
-                      <div className="flex items-center justify-center w-full h-20 px-4 transition bg-gray-800 border-2 border-gray-700 border-dashed rounded-lg appearance-none cursor-pointer hover:border-purple-500 focus:outline-none">
-                        <span className="flex items-center space-x-2">
-                          {uploading ? (
-                            <Loader2 className="w-6 h-6 text-purple-500 animate-spin" />
-                          ) : (
-                            <Upload className="w-6 h-6 text-gray-400" />
-                          )}
-                          <span className="font-medium text-gray-400">
-                            {uploading ? 'Uploading...' : 'Click to upload image'}
-                          </span>
-                        </span>
-                        <input type="file" name="file" className="hidden" onChange={handleImageUpload} accept="image/*" disabled={uploading} />
+                    <h3 className="text-sm font-bold text-white leading-tight line-clamp-1">{editForm.title || 'Project Title'}</h3>
+                    <p className="text-[11px] text-white/50 mt-1 line-clamp-2">{editForm.description || 'Project description goes here.'}</p>
+                    {editForm.tags && (
+                      <div className="flex flex-wrap gap-1 mt-2">
+                        {editForm.tags.split(',').map((t) => t.trim()).filter(Boolean).map((tag) => (
+                          <span key={tag} className="px-1.5 py-0.5 text-[9px] font-mono bg-white/10 text-white/70 rounded-full">{tag}</span>
+                        ))}
                       </div>
-                    </label>
+                    )}
+                    <div className="flex-grow" />
+                    <div className="flex items-center gap-2 mt-3">
+                      {editForm.link && (
+                        <span className="bg-white text-gray-950 h-6 px-2.5 rounded-md text-[10px] font-semibold inline-flex items-center gap-1">Live Demo</span>
+                      )}
+                      {editForm.repo && (
+                        <span className="border border-white/30 text-white/60 h-6 px-2.5 rounded-md text-[10px] font-semibold inline-flex items-center">
+                          <Github size={10} />
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className="flex justify-end gap-4 mt-8">
-                <button 
-                  onClick={() => { setIsAdding(false); setIsEditing(null); setEditForm(null); }}
-                  className="px-6 py-2 rounded-lg font-bold text-gray-400 hover:text-white transition-colors"
-                >
-                  Cancel
-                </button>
-                <button 
-                  onClick={() => saveProject(editForm)}
-                  disabled={loading || uploading}
-                  className="bg-purple-500 hover:bg-purple-600 disabled:bg-purple-500/50 text-white px-8 py-2 rounded-lg font-bold flex items-center gap-2 transition-all"
-                >
-                  {loading ? <Loader2 className="size-4 animate-spin" /> : <Save size={18} />}
-                  <span>{isAdding ? 'Create Project' : 'Save Changes'}</span>
-                </button>
-              </div>
-            </Card>
+            </div>
           </div>
         )}
 
@@ -345,10 +400,11 @@ export default function AdminPortal() {
                 <div className="flex gap-4">
                   {project.image && (
                     <div className="relative size-16 flex-shrink-0">
-                      <Image 
-                        src={project.image} 
-                        alt="" 
-                        fill 
+                      <Image
+                        key={`${project.id}-${imageCacheBuster}`}
+                        src={project.image}
+                        alt=""
+                        fill
                         className="object-cover rounded-lg border border-gray-700"
                         unoptimized
                       />
@@ -364,14 +420,14 @@ export default function AdminPortal() {
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <button 
+                  <button
                     onClick={() => startEdit(index)}
                     className="p-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-white transition-colors"
                     title="Edit"
                   >
                     <Edit2 size={16} />
                   </button>
-                  <button 
+                  <button
                     onClick={() => project.id && deleteProject(project.id)}
                     className="p-2 bg-red-500/10 hover:bg-red-500/20 rounded-lg text-red-500 transition-colors"
                     title="Delete"

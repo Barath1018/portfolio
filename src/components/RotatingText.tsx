@@ -176,9 +176,15 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
 
     useEffect(() => {
       if (!auto) return;
-      const intervalId = setInterval(next, rotationInterval);
+      const intervalId = setInterval(() => {
+        setCurrentTextIndex((prev) => {
+          const nextIdx = prev === texts.length - 1 ? (loop ? 0 : prev) : prev + 1;
+          if (onNext && nextIdx !== prev) onNext(nextIdx);
+          return nextIdx;
+        });
+      }, rotationInterval);
       return () => clearInterval(intervalId);
-    }, [next, rotationInterval, auto]);
+    }, [texts.length, rotationInterval, auto, loop, onNext]);
 
     return (
       <motion.span

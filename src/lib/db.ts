@@ -26,8 +26,17 @@ export async function initDatabase() {
         link TEXT,
         repo TEXT,
         image TEXT,
+        tags TEXT,
         created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
       )
+    `;
+
+    await sql`
+      DO $$ BEGIN
+        ALTER TABLE projects ADD COLUMN IF NOT EXISTS tags TEXT;
+      EXCEPTION
+        WHEN duplicate_column THEN null;
+      END $$;
     `;
     console.log('Database initialized successfully');
   } catch (error) {

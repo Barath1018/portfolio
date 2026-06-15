@@ -1,5 +1,3 @@
-import ArrowUpRightIcon from "@/assets/icons/arrow-up-right.svg";
-
 const footerLinks = [
   {
     title: "GitHub",
@@ -34,15 +32,15 @@ export const Footer = () => {
   const getIconClass = (iconType: string) => {
     switch (iconType) {
       case "github":
-        return "text-gray-400 group-hover:text-white";
+        return "text-gray-400 group-hover:text-white group-hover:shadow-white/20";
       case "linkedin":
-        return "text-gray-400 group-hover:text-blue-600";
+        return "text-gray-400 group-hover:text-blue-500 group-hover:shadow-blue-500/20";
       case "instagram":
-        return "text-gray-400 group-hover:text-pink-500";
+        return "text-gray-400 group-hover:text-pink-500 group-hover:shadow-pink-500/20";
       case "discord":
-        return "text-gray-400 group-hover:text-indigo-500";
+        return "text-gray-400 group-hover:text-indigo-400 group-hover:shadow-indigo-400/20";
       case "mail":
-        return "text-gray-400 group-hover:text-red-400";
+        return "text-gray-400 group-hover:text-red-400 group-hover:shadow-red-400/20";
       default:
         return "text-gray-400 group-hover:text-white";
     }
@@ -53,34 +51,34 @@ export const Footer = () => {
       case "github":
         return "group-hover:text-white";
       case "linkedin":
-        return "group-hover:text-blue-600";
+        return "group-hover:text-blue-500";
       case "instagram":
         return "group-hover:text-pink-500";
       case "discord":
-        return "group-hover:text-indigo-500";
+        return "group-hover:text-indigo-400";
       case "mail":
-        return "group-hover:text-sky-400";
+        return "group-hover:text-red-400";
       default:
         return "group-hover:text-white";
     }
   };
 
   return (
-    <footer className="relative overflow-x-clip">
-  <div className="absolute h-[600px] w-[1600px] bottom-0 left-1/2 -translate-x-1/2 bg-[#c084f5]/40 [mask-image:radial-gradient(50%_50%_at_bottom_center,black,transparent)] -z-10"></div>
+    <footer className="relative overflow-x-clip pb-8">
+      <div className="absolute h-[600px] w-[1600px] bottom-0 left-1/2 -translate-x-1/2 bg-[#c084f5]/30 [mask-image:radial-gradient(50%_50%_at_bottom_center,black,transparent)] -z-10" />
       <div className="container">
-        <div className="border-t border-white/15 py-6 text-sm flex flex-col md:flex-row md:justify-between items-center gap-8">
-          <div className="text-white/40">&copy; {currentYear} All rights reserved.</div>
-          <nav className="flex flex-col md:flex-row items-center gap-8">
+        <div className="border-t border-white/10 py-8 text-sm flex flex-col md:flex-row md:justify-between items-center gap-8">
+          <div className="text-white/30">&copy; {currentYear} All rights reserved.</div>
+          <nav className="flex flex-col md:flex-row items-center gap-6">
             {footerLinks.map((link) => (
-              <a 
-                href={link.href} 
-                key={link.title} 
-                className="inline-flex items-center gap-3 text-white/70 hover:text-white transition-all duration-500 ease-in-out group"
+              <a
+                href={link.href}
+                key={link.title}
+                className="inline-flex items-center gap-2.5 text-white/50 hover:text-white transition-all duration-300 group"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <div className={`p-1.5 rounded-full ${getIconClass(link.icon)} transition-all duration-500 ease-in-out group-hover:-translate-y-1`}>
+                <div className={`p-2 rounded-xl bg-white/5 border border-white/10 ${getIconClass(link.icon)} transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-lg`}>
                   {link.icon === "github" && (
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                       <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
@@ -107,10 +105,7 @@ export const Footer = () => {
                     </svg>
                   )}
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <span className={`font-semibold transition-all duration-500 ease-in-out group-hover:-translate-y-1 ${getTextClass(link.icon)}`}>{link.title}</span>
-                  <ArrowUpRightIcon className="size-4 opacity-0 group-hover:opacity-100 transform translate-x-1 group-hover:translate-x-0 transition-all duration-500 ease-in-out group-hover:-translate-y-1" />
-                </div>
+                <span className={`font-semibold transition-all duration-300 group-hover:-translate-y-0.5 ${getTextClass(link.icon)}`}>{link.title}</span>
               </a>
             ))}
           </nav>
