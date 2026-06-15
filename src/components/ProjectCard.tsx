@@ -35,11 +35,11 @@ export const ProjectCard = ({
   return (
     <div
       className={twMerge(
-        "group bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden flex flex-col shadow-xl shadow-black/5 transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_0_20px_-5px_rgba(192,132,245,0.2)] h-[380px]",
+        "group bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden flex flex-col shadow-xl shadow-black/5 transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_0_20px_-5px_rgba(192,132,245,0.2)] min-h-[430px]",
         className
       )}
     >
-      <div className="relative h-36 w-full overflow-hidden rounded-t-2xl">
+      <div className="relative h-44 w-full overflow-hidden rounded-t-2xl">
         {!imgError ? (
           <Image
             src={image}
@@ -82,7 +82,7 @@ export const ProjectCard = ({
           {title}
         </h3>
 
-        <p className="text-xs text-white/50 mt-1.5 line-clamp-3 flex-grow leading-relaxed">
+        <p className="text-xs text-white/50 mt-1.5 flex-grow leading-relaxed">
           {description}
         </p>
 

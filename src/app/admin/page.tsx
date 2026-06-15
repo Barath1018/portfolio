@@ -260,18 +260,24 @@ export default function AdminPortal() {
                     />
                   </div>
                   <div className="col-span-2">
-                    <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">Title</label>
+                    <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">
+                      Title <span className="text-gray-600 normal-case">({editForm.title.length}/50)</span>
+                    </label>
                     <input
                       className="w-full bg-gray-800 border border-gray-700 rounded-lg p-2 text-sm text-white outline-none focus:border-purple-500"
                       value={editForm.title}
+                      maxLength={50}
                       onChange={e => setEditForm({...editForm, title: e.target.value})}
                     />
                   </div>
                   <div className="col-span-2">
-                    <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">Description</label>
+                    <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">
+                      Description <span className="text-gray-600 normal-case">({editForm.description.length}/150)</span>
+                    </label>
                     <textarea
                       className="w-full bg-gray-800 border border-gray-700 rounded-lg p-2 text-sm text-white outline-none focus:border-purple-500 h-20 resize-none"
                       value={editForm.description}
+                      maxLength={150}
                       onChange={e => setEditForm({...editForm, description: e.target.value})}
                     />
                   </div>

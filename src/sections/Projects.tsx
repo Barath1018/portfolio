@@ -24,7 +24,7 @@ export const ProjectsSection = ({ projects }: { projects: Project[] }) => {
           description="See how I transformed concepts into engaging digital experiences."
         />
 
-        <div className="mt-12 lg:mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-stretch">
+        <div className="mt-12 lg:mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 items-stretch">
           {projects.map((project, index) => (
             <ProjectCard
               key={index}
