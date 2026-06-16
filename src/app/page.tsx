@@ -24,7 +24,7 @@ export default async function Home() {
       <div id="projects">
         <ProjectsSection projects={projects} />
       </div>
-      <TapeSection/>
+      {/* <TapeSection/> */}
       <ServicesSection/>
       <div id="about">
         <AboutSection/>
