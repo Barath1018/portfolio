@@ -7,12 +7,18 @@ import { AboutSection } from '@/sections/About';
 import { ContactSection } from '@/sections/Contact';
 import { Footer } from '@/sections/Footer';
 import Particles from "@/components/Particles";
-import { getProjects } from '@/lib/getProjects';
+import { getProjects, type ProjectData } from '@/lib/getProjects';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function Home() {
-  const projects = await getProjects();
+  let projects: ProjectData[] = [];
+  try {
+    projects = await getProjects();
+  } catch (e) {
+    console.error('[Home] Failed to fetch projects:', e);
+  }
 
   return (
     <div>
