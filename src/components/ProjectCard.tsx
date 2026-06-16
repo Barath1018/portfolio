@@ -35,7 +35,7 @@ export const ProjectCard = ({
   return (
     <div
       className={twMerge(
-        `group w-full bg-[#1a1a2e] border border-white/10 rounded-2xl overflow-hidden shadow-xl shadow-black/20 transition-all duration-500 hover:border-white/20 hover:shadow-[0_0_40px_-10px_rgba(192,132,245,0.15)] border-l-[3px]`,
+        `group w-full bg-[#1a1a2e] border border-white/20 rounded-2xl overflow-hidden shadow-xl shadow-black/20 transition-all duration-500 hover:border-white/30 hover:shadow-[0_0_40px_-10px_rgba(192,132,245,0.15)] border-l-[3px]`,
         "flex flex-col lg:flex-row h-[44vh] max-h-[500px]",
         className
       )}
