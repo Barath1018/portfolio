@@ -1,4 +1,6 @@
 import { sql, initDatabase } from './db';
+import { readFile } from 'fs/promises';
+import path from 'path';
 
 export interface ProjectData {
   id?: number;
@@ -25,7 +27,12 @@ export async function getProjects(): Promise<ProjectData[]> {
     return projects as ProjectData[];
   } catch (error) {
     console.error('[getProjects] Database query failed:', error instanceof Error ? error.message : error);
-    console.error('[getProjects] Full error:', error);
-    throw error;
+    console.error('[getProjects] Falling back to projects.json');
+    try {
+      const data = await readFile(path.join(process.cwd(), 'projects.json'), 'utf-8');
+      return JSON.parse(data) as ProjectData[];
+    } catch {
+      return [];
+    }
   }
 }

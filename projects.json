@@ -1,0 +1,22 @@
+[
+  {
+    "title": "NexFlow - Build Automations with Natural Language",
+    "description": "A full-stack AI workflow automation platform that lets users build and run automations across Gmail, Google Sheets, Google Docs, Google Calendar, Telegram, and AI models — all through a natural language chat interface.",
+    "image": "https://placehold.co/1200x800/1a1a2e/c084f5?text=NexFlow",
+    "link": "#",
+    "repo": "#",
+    "tags": "Vite, Fast API, Supabase, GWS",
+    "company": "FEATURED",
+    "year": "2024"
+  },
+  {
+    "title": "SyncShare — AI-Powered Social Media Automation Platform",
+    "description": "A full-stack AI-powered social media management SaaS that lets users schedule posts, build chat automations, repurpose content from any source, and manage multiple platforms - all from a single dashboard.",
+    "image": "https://placehold.co/1200x800/1a1a2e/38bdf8?text=SyncShare",
+    "link": "#",
+    "repo": "#",
+    "tags": "Vite, TypeScript, Supabase, Meta API",
+    "company": "ONGOING",
+    "year": "2025"
+  }
+]

@@ -45,6 +45,14 @@ export const ProjectsSection = ({ projects }: { projects: Project[] }) => {
                 liveUrl={project.link}
                 githubUrl={project.repo}
                 accentColor={accentColors[index % accentColors.length]}
+                categoryTop="-8px"
+                categoryLeft="5px"
+                titleTop="8px"
+                titleLeft="5px"
+                descTop="5px"
+                descLeft="5px"
+                tagsTop="60px"
+                tagsLeft="5px"
               />
             </div>
           </div>
